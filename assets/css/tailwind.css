@@ -5,3 +5,7 @@
 #__nuxt {
   font-family: 'Raleway', sans-serif;
 }
+
+html, body, #__nuxt, #app {
+  height: 100%;
+}

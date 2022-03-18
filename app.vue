@@ -4,10 +4,14 @@
       <Title>Clonify</Title>
     </Head>
   </Html>
-  <div id="app">
-    <NuxtLayout>
-      <NuxtPage/>
-    </NuxtLayout>
+  <div id="app" class="h-full">
+    <div class="flex flex-col h-full">
+      <div class="flex flex-1">
+        <CoreSidebar class="w-20%" />
+        <NuxtPage class="w-auto"/>
+      </div>
+      <CorePlayerbar />
+    </div>
   </div>
 </template>
 
