@@ -16,7 +16,7 @@
 const items = [
   { text: 'Accueil', link: '/', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid' },
   { text: 'Rechercher', link: '/search', icon: 'i-teenyicons-search-outline', iconActive: 'i-teenyicons-search-solid' },
-  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid' },
+  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid' },
 ]
 
 </script>

@@ -2,7 +2,7 @@
    <NuxtLink 
      :to="link" 
      exact-active-class="text-white" 
-     class="flex items-center text-sm hover:text-white" 
+     class="flex items-center text-sm hover:text-white not-first:mt-1" 
      v-slot="{ isExactActive }"
    >
       <div 
