@@ -1,6 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'http'
 import { createProxyMiddleware } from 'http-proxy-middleware'
-import config from '#config'
 
 // Temporary dev proxy until @nuxtjs/proxy module is available.
 
