@@ -38,6 +38,8 @@ const props = defineProps({
   },
 })
 
-const { text, link, icon, iconActive } = toRefs(props.item)
+const { item } = toRefs(props)
+
+const { text, link, icon, iconActive } = item.value
 
 </script>

@@ -8,7 +8,10 @@
     <div class="flex flex-col h-full">
       <div class="flex flex-1">
         <CoreSidebar class="w-20%" />
-        <NuxtPage class="w-auto"/>
+        <div class="w-full bg-cl-black-2 relative">
+          <CoreHeaderbar class="absolute top-0" />
+          <NuxtPage class="w-full bg-cl-black-2 mt-10"/>
+        </div>
       </div>
       <CorePlayerbar />
     </div>

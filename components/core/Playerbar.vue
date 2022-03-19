@@ -1,5 +1,4 @@
 <template>
-  <div class="block bg-[#181818] h-24">
-    AHAHHA
+  <div class="block bg-[#181818] h-21">
   </div>
 </template>

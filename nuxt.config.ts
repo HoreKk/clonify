@@ -2,10 +2,20 @@ import { defineNuxtConfig } from 'nuxt3'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
-  ssr: false,
+  publicRuntimeConfig: {
+    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET
+  },
   buildModules: [
     '@unocss/nuxt',
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    '@nuxtjs/proxy',
+    'cookie-universal-nuxt',
   ],
+  proxy: {
+    "/api/": { target: "https://api.spotify.com/v1", pathRewrite: { "^/api/": "" }}
+  },
   unocss: {
     // presets
     icons: true, // enabled `@unocss/preset-icons`
@@ -19,7 +29,10 @@ export default defineNuxtConfig({
     theme: {
       colors: {
         'cl-primary': '#1BB954',
-        'cl-black': '#191414'
+        'cl-black': '#191414',
+        'cl-black-2': '#121212',
+        'cl-card': '#282828',
+        'cl-card-hover': '#3E3E3E',
       }
     },
 
