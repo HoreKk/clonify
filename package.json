@@ -21,7 +21,7 @@
     "nuxt3": "latest"
   },
   "dependencies": {
-    "@headlessui/vue": "^1.5.0",
+    "@headlessui/vue": "0.0.0-insiders.2dbc38c",
     "@nuxt/ui-templates": "npm:@nuxt/ui-templates-edge@0.0.0-27455683.83d2457",
     "@nuxtjs/proxy": "^2.1.0",
     "@pinia/nuxt": "^0.1.8",
