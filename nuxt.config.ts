@@ -13,9 +13,6 @@ export default defineNuxtConfig({
     '@nuxtjs/proxy',
     'cookie-universal-nuxt',
   ],
-  proxy: {
-    "/api/": { target: "https://api.spotify.com/v1", pathRewrite: { "^/api/": "" }}
-  },
   unocss: {
     // presets
     icons: true, // enabled `@unocss/preset-icons`

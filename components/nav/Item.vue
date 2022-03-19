@@ -1,5 +1,6 @@
 <template>
-   <NuxtLink 
+   <NuxtLink
+     v-if="text"
      :to="link" 
      exact-active-class="text-white" 
      class="flex items-center text-sm hover:text-white not-first:mt-1" 
