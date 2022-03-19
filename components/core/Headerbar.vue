@@ -48,7 +48,7 @@ const route = useRoute()
 let state = (Math.random() + 1).toString(36).substring(2);
 let scopes = "playlist-modify-private,playlist-read-collaborative,playlist-read-private,playlist-modify-public,user-library-read,user-library-modify,user-read-private,user-read-email,user-top-read,user-read-recently-played"
 
-const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(config.SPOTIFY_CLIENT_ID)}&state=${state}&redirect_uri=${config.SPOTIFY_REDIRECT_URI}&scope=${scopes}&show_dialog=true`
+const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(config.SPOTIFY_CLIENT_ID)}&state=${state}&redirect_uri=${encodeURIComponent(config.SPOTIFY_REDIRECT_URI)}&scope=${scopes}&show_dialog=true`
 
 const logout = () => {
   nuxtApp.$cookies.remove('clonify-credentials')
