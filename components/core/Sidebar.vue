@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col bg-black pt-6 px-6">
-    <img class="max-w-33" src="/spotify-full-white.png" />
-    <div class="flex flex-col gap-y-5 mt-10 text-white/85">
+    <CoreLogo />
+    <div class="flex flex-col gap-y-5 mt-8 text-white/85">
       <NavItem 
         v-for="item in navigationsItems" 
         :key="item.text" 
@@ -41,17 +41,28 @@ const { data: playlists, pending, error } = await useApi('/v1/me/playlists', {
   },
 })
 
+function getTextWidth(text) {
+  return text.length * 6
+}
+
 const navigationsItems = [
-  { text: 'Accueil', link: '/', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid' },
-  { text: 'Rechercher', link: '/search', icon: 'i-teenyicons-search-outline', iconActive: 'i-teenyicons-search-solid' },
-  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid' },
-]
+  { text: 'Accueil', link: '/', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid', widthOfText: 0 },
+  { text: 'Rechercher', link: '/search', icon: 'i-teenyicons-search-outline', iconActive: 'i-teenyicons-search-solid', widthOfText: 0 },
+  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid', widthOfText: 0 },
+].map(item => {
+  item.widthOfText = getTextWidth(item.text)
+  return item
+})
 
 const otherItems = [
-  { text: 'Créer une playlist', link: '/new-playlist', icon: 'i-teenyicons-add-outline', iconActive: 'i-teenyicons-home-solid' },
-  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-search-solid' },
-  { text: 'Vos épisodes', link: '/collection/episodes', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid' },
-  { text: '', link: '/callback', icon: 'i-dsad', iconActive: 'i-teenyicons-daslayers-solid' },
-]
+  { text: 'Créer une playlist', link: '/new-playlist', icon: 'i-teenyicons-add-outline', iconActive: 'i-teenyicons-home-solid', widthOfText: 0 },
+  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-search-solid', widthOfText: 0 },
+  { text: 'Vos épisodes', link: '/collection/episodes', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid', widthOfText: 0 },
+  { text: '', link: '/callback', icon: 'i-dsad', iconActive: 'i-teenyicons-daslayers-solid', widthOfText: 0 },
+].map(item => {
+  item.widthOfText = getTextWidth(item.text)
+  return item
+})
+
 
 </script>

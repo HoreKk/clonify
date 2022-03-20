@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col items-center mx-10 text-white">
-      <template v-if="!pending && topItems?.items">
+      <template v-if="!pending">
         <div v-for="item in topItems?.items" :key="item.id">
           {{ item.album.name }}
         </div>
@@ -24,7 +24,7 @@ const { data: topItems, pending } = await useApi('/v1/me/top/tracks', {
     time_range: 'short_term',
     limit: 20,
   },
-});
+})
 
 
 </script>

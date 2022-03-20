@@ -10,25 +10,31 @@
         :class="isExactActive ? iconActive : icon" 
         class="mr-4 w-5 h-5" 
       />
-      <p class="test-sm">{{ text }}</p>
+      <p v-if="clonifyStore.isConnected" class="test-sm">{{ text }}</p>
+      <div v-else :style="{ width: widthOfText + 'px' }" class="h-2 rounded-lg bg-cl-card-hover"></div>
     </NuxtLink>
 </template>
 
 <script lang="ts" setup>
 
 import { PropType } from 'vue'
+import { useClonify } from '~/stores/spotify'
+
+const clonifyStore = useClonify()
 
 class NavItem {
   text: string
   link: string
   icon: string
   iconActive: string
+  widthOfText: number
 
-  constructor (text: string, link: string, icon: string, iconActive: string) {
+  constructor (text: string, link: string, icon: string, iconActive: string, widthOfText: number) {
     this.text = text
     this.link = link
     this.icon = icon
     this.iconActive = iconActive
+    this.widthOfText = widthOfText
   }
 }
 
@@ -41,6 +47,6 @@ const props = defineProps({
 
 const { item } = toRefs(props)
 
-const { text, link, icon, iconActive } = item.value
+const { text, link, icon, iconActive, widthOfText } = item.value
 
 </script>

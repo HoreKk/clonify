@@ -7,9 +7,13 @@
 <script lang="ts" setup>
 
 import type { SpotifyCredentials } from '~/stores/spotify'
+import { useClonify } from '~/stores/spotify';
 
+const clonifyStore = useClonify()
 const route = useRoute()
 const nuxtApp = useNuxtApp()
+
+clonifyStore.isLoading = true
 
 if (route.hash) {
   let search = route.hash.replace('#', '')
@@ -36,6 +40,7 @@ if (route.hash) {
       maxAge: spotifyCredentials.expires_in,
       path: '/',
     })
+    clonifyStore.isLoading = false
     window.location.href = '/'
   })
 }
