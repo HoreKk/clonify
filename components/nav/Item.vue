@@ -10,8 +10,7 @@
         :class="isExactActive ? iconActive : icon" 
         class="mr-4 w-5 h-5" 
       />
-      <p v-if="clonifyStore.isConnected" class="test-sm">{{ text }}</p>
-      <div v-else :style="{ width: widthOfText + 'px' }" class="h-2 rounded-lg bg-cl-card-hover"></div>
+      <Text tag="p" classes="text-sm" :text="text" />
     </NuxtLink>
 </template>
 

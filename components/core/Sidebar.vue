@@ -31,38 +31,23 @@
 
 <script lang="ts" setup>
 
-import { useClonify } from '~~/stores/spotify';
-
-const clonifyStore = useClonify()
-
 const { data: playlists, pending, error } = await useApi('/v1/me/playlists', {
   params: {
     limit: 50,
   },
 })
 
-function getTextWidth(text) {
-  return text.length * 6
-}
-
 const navigationsItems = [
-  { text: 'Accueil', link: '/', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid', widthOfText: 0 },
-  { text: 'Rechercher', link: '/search', icon: 'i-teenyicons-search-outline', iconActive: 'i-teenyicons-search-solid', widthOfText: 0 },
-  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid', widthOfText: 0 },
-].map(item => {
-  item.widthOfText = getTextWidth(item.text)
-  return item
-})
+  { text: 'Accueil', link: '/', icon: 'i-teenyicons-home-outline', iconActive: 'i-teenyicons-home-solid' },
+  { text: 'Rechercher', link: '/search', icon: 'i-teenyicons-search-outline', iconActive: 'i-teenyicons-search-solid' },
+  { text: 'Bibliothèque', link: '/collection', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid' },
+]
 
 const otherItems = [
-  { text: 'Créer une playlist', link: '/new-playlist', icon: 'i-teenyicons-add-outline', iconActive: 'i-teenyicons-home-solid', widthOfText: 0 },
-  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-search-solid', widthOfText: 0 },
-  { text: 'Vos épisodes', link: '/collection/episodes', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid', widthOfText: 0 },
-  { text: '', link: '/callback', icon: 'i-dsad', iconActive: 'i-teenyicons-daslayers-solid', widthOfText: 0 },
-].map(item => {
-  item.widthOfText = getTextWidth(item.text)
-  return item
-})
-
+  { text: 'Créer une playlist', link: '/new-playlist', icon: 'i-teenyicons-add-outline', iconActive: 'i-teenyicons-home-solid' },
+  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-search-solid' },
+  { text: 'Vos épisodes', link: '/collection/episodes', icon: 'i-teenyicons-layers-outline', iconActive: 'i-teenyicons-layers-solid' },
+  { text: '', link: '/callback', icon: 'i-dsad', iconActive: 'i-teenyicons-daslayers-solid' },
+]
 
 </script>

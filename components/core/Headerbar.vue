@@ -11,14 +11,9 @@
     <div class="relative">
       <Menu>
         <MenuButton class="flex items-center bg-black hover:bg-cl-card text-white rounded-full">
-          <template v-if="clonifyStore.isConnected">
-            <img :src="clonifyStore.user?.images[0]?.url" class="w-7 h-7 rounded-full mr-2">
-            <span class="font-semibold text-sm">{{ clonifyStore.user?.display_name }}</span>
-          </template>
-          <template v-else>
-            <div class="w-7 h-7 bg-cl-card-hover rounded-full mr-2" />
-            <div class="w-24 h-2 rounded-lg bg-cl-card-hover"></div>
-          </template>
+          <img v-if="clonifyStore.isConnected" :src="clonifyStore.user?.images[0]?.url" class="w-7 h-7 rounded-full mr-2">
+          <div v-else class="w-7 h-7 bg-cl-card-hover rounded-full mr-2" />
+          <Text :text="clonifyStore.user?.display_name" width="w-24" classes="font-semibold text-sm" />
           <div class="i-mdi-menu-down w-8 h-8" />
         </MenuButton>
         <MenuItems class="absolute flex flex-col text-white/95 mt-2 bg-cl-card rounded-md p-1 w-full ">
