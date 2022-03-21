@@ -3,13 +3,13 @@
     <div
       id="gradientHome"
       class="absolute -top-20 w-full h-85 opacity-20 bg-gradient-to-b from-[var(--current-album-color)]"
-      :style="isHomeCardHover ? { animation: 'enterGradient 0.5s linear' } : { animation: 'leaveGradient 0.5s linear' }"
+      :style="isCardHomeHover ? { animation: 'enterGradient 0.5s linear' } : { animation: 'leaveGradient 0.5s linear' }"
     />
     <div class="flex flex-col mx-10 text-white relative">
       <h1 class="text-4xl text-white font-bold">{{ welcomeMessage }}</h1>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 w-full mt-8">
         <div v-for="album in topAlbums" :key="album.id" class="flex">
-          <HomeCard :album="album" @emit-current-color="setCurrentColor" />
+          <CardHome :album="album" @emit-current-color="setCurrentColor" />
         </div>
       </div>
     </div>
@@ -23,12 +23,12 @@ const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ?
 const defaultColor = ref<number[]>([18, 18, 18])
 const lastColor = ref<number[]>([18, 18, 18])
 const currentColor = ref<number[]>([18, 18, 18])
-const isHomeCardHover = ref(false)
+const isCardHomeHover = ref(false)
 
 const setCurrentColor = (color: number[], isHover: boolean) => {
   lastColor.value = isHover ? defaultColor.value : currentColor.value
   currentColor.value = isHover ? color : defaultColor.value
-  isHomeCardHover.value = isHover
+  isCardHomeHover.value = isHover
 }
 
 const topAlbums = ref([...Array(6).keys()].map(item => ({ id: item, name: '', images: [] })));

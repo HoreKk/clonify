@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
     theme: {
       colors: {
-        'cl-primary': '#1BB954',
+        'cl-primary': '#1ed760',
         'cl-black': '#191414',
         'cl-black-2': '#121212',
         'cl-card': '#282828',
