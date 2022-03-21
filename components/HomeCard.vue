@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 
 import { PropType } from 'vue'
-import * as Vibrant from 'node-vibrant'
+import Vibrant from 'node-vibrant'
 
 const palette = ref(null)
 
@@ -23,7 +23,7 @@ const emit = defineEmits<{
 }>()
 
 const emitCurrentColor = async (state: boolean) => {
-  emit('emit-current-color', palette.value.Vibrant.rgb, state)
+  emit('emit-current-color', palette.value?.Vibrant?.rgb, state)
 }
 
 class HomeCard {
@@ -48,8 +48,14 @@ const { album } = toRefs(props)
 
 const { name, images } = toRefs(album.value)
 
-onMounted(async () => {
-  palette.value = await Vibrant.from(images.value[0]?.url).getPalette()
-})
+if (!process.server) {
+  var img = document.createElement('img');
+  img.setAttribute('src', images.value[0]?.url);
+  img.setAttribute('crossorigin', 'anonymous');
+  img.addEventListener('load', async () => {
+      var vibrant = new Vibrant(img);
+      palette.value = await vibrant.getPalette();
+  });
+}
 
 </script>
