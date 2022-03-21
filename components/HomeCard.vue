@@ -1,7 +1,7 @@
 <template>
   <div 
-    class="flex items-center bg-[#282828]/90 backdrop-blur rounded cursor-pointer w-full shadow-lg" 
-    :class="name && 'hover:bg-cl-card-hover'"
+    class="flex items-center bg-[rgba(255,255,255,.1)] backdrop-blur rounded cursor-pointer w-full shadow-lg" 
+    :class="name && 'hover:bg-[rgba(255,255,255,.2)]'"
     @mouseenter="emitCurrentColor(true)"
     @mouseleave="emitCurrentColor(false)"
   >
