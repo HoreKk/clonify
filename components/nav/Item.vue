@@ -26,14 +26,12 @@ class NavItem {
   link: string
   icon: string
   iconActive: string
-  widthOfText: number
 
   constructor (text: string, link: string, icon: string, iconActive: string, widthOfText: number) {
     this.text = text
     this.link = link
     this.icon = icon
     this.iconActive = iconActive
-    this.widthOfText = widthOfText
   }
 }
 
@@ -46,6 +44,6 @@ const props = defineProps({
 
 const { item } = toRefs(props)
 
-const { text, link, icon, iconActive, widthOfText } = item.value
+const { text, link, icon, iconActive } = toRefs(item.value)
 
 </script>

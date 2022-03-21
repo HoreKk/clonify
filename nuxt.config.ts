@@ -34,6 +34,15 @@ export default defineNuxtConfig({
         'cl-black-2': '#121212',
         'cl-card': '#282828',
         'cl-card-hover': '#3E3E3E',
+      },
+      keyframes: {
+        pop: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 0.2 },
+        }
+      },
+      animation: {
+        pop: 'pop 5s ease-in-out',
       }
     },
 

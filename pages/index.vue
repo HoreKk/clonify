@@ -1,31 +1,86 @@
 <template>
-  <div>
-    <div class="flex flex-col items-center mx-10 text-white">
-      <template v-if="!pending">
-        <div v-for="item in topItems?.items" :key="item.id">
-          {{ item.album.name }}
+  <div class="relative">
+    <div
+      id="gradientHome"
+      class="absolute -top-20 w-full h-85 opacity-20 bg-gradient-to-b from-[var(--current-album-color)]"
+      :style="isHomeCardHover ? { animation: 'enterGradient 0.5s linear' } : { animation: 'leaveGradient 0.5s linear' }"
+    />
+    <div class="flex flex-col mx-10 text-white relative">
+      <h1 class="text-4xl text-white font-bold">{{ welcomeMessage }}</h1>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 w-full mt-8">
+        <div v-for="(album, i) in topAlbums" :key="album.id" :ref="el => albumRefs[i] = el" class="flex">
+          <HomeCard v-if="albumRefs[i]" :album="album" :cardElement="albumRefs[i]" @emit-current-color="setCurrentColor" />
         </div>
-      </template>
-      <template v-else>
-        Loading...
-      </template>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 
-import { useClonify } from '~~/stores/spotify';
+const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ? 'Bonjour' : 'Bonsoir'
 
-const clonifyStore = useClonify();
+const defaultColor = ref<number[]>([18, 18, 18])
+const lastColor = ref<number[]>([18, 18, 18])
+const currentColor = ref<number[]>([18, 18, 18])
+const isHomeCardHover = ref(false)
 
-const { data: topItems, pending } = await useApi('/v1/me/top/tracks', {
-  params: {
-    time_range: 'short_term',
-    limit: 20,
-  },
+const setCurrentColor = (color: number[], isHover: boolean) => {
+  lastColor.value = isHover ? defaultColor.value : currentColor.value
+  currentColor.value = isHover ? color : defaultColor.value
+  isHomeCardHover.value = isHover
+}
+
+const topAlbums = ref([...Array(6).keys()].map(item => ({ id: item, name: '', images: [] })));
+const albumRefs = ref<HTMLElement[]>([])
+
+const { data: topItems } = await useApi('/v1/me/top/tracks', {
+  params: { time_range: 'short_term', limit: 40 },
 })
 
+if (topItems.value) {
+  var arr = topItems.value?.items
+    .map(item => item.album)
+    .map(item => ({ id: item["id"], value: item }))
+  
+  topAlbums.value = Array.from(
+      arr.reduce((map, item) => 
+          (map.get(item.id).count++, map) 
+      , new Map(arr.map(o => 
+          [o.id, Object.assign({}, o, { count: 0 })]
+      ))), ([k, o]) => o
+  ).sort((a, b) => b.count - a.count).slice(0, 6).map(item => item.value)
+}
 
 </script>
+
+<style>
+
+#gradientHome {
+  --current-album-color: rgba(v-bind(currentColor));
+}
+
+@keyframes enterGradient {
+  from {
+    opacity: 0;
+    --current-album-color: rgba(v-bind(lastColor));
+  }
+  to {
+    opacity: .2;
+    --current-album-color: rgba(v-bind(currentColor));
+  }
+}
+
+@keyframes leaveGradient {
+  0% {
+    opacity: .2;
+    --current-album-color: rgba(v-bind(lastColor));
+  }
+  100% {
+    opacity: 0;
+    --current-album-color: rgba(v-bind(currentColor));
+  }
+}
+
+</style>
 

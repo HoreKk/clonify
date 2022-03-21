@@ -13,7 +13,7 @@
 
       <DialogTitle
         as="h3"
-        class="text-2xl font-semibold mx-16 text-white mt-8"
+        class="text-2xl font-semibold mx-16 text-white mt-4"
       >
         Connectez-vous pour continuer.
       </DialogTitle>
@@ -30,8 +30,8 @@
       <div class="flex h-90%">
         <CoreSidebar class="min-w-75 w-20%" />
         <div class="w-full bg-cl-black-2 relative">
-          <CoreHeaderbar class="absolute top-0" />
-          <NuxtPage class="w-full mt-16"/>
+          <CoreHeaderbar class="absolute top-0 bg-transparent" />
+          <NuxtPage class="w-full mt-20"/>
         </div>
       </div>
       <CorePlayerbar class="w-full h-10%" />
