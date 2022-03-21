@@ -8,8 +8,8 @@
     <div class="flex flex-col mx-10 text-white relative">
       <h1 class="text-4xl text-white font-bold">{{ welcomeMessage }}</h1>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 w-full mt-8">
-        <div v-for="(album, i) in topAlbums" :key="album.id" :ref="el => albumRefs[i] = el" class="flex">
-          <HomeCard v-if="albumRefs[i]" :album="album" :cardElement="albumRefs[i]" @emit-current-color="setCurrentColor" />
+        <div v-for="album in topAlbums" :key="album.id" class="flex">
+          <HomeCard :album="album" @emit-current-color="setCurrentColor" />
         </div>
       </div>
     </div>
@@ -32,7 +32,6 @@ const setCurrentColor = (color: number[], isHover: boolean) => {
 }
 
 const topAlbums = ref([...Array(6).keys()].map(item => ({ id: item, name: '', images: [] })));
-const albumRefs = ref<HTMLElement[]>([])
 
 const { data: topItems } = await useApi('/v1/me/top/tracks', {
   params: { time_range: 'short_term', limit: 40 },
