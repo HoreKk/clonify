@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 
-const { data: playlists, pending, error } = await useApi('/v1/me/playlists', {
+const { data: playlists, pending } = await useApi('/v1/me/playlists', {
   params: { limit: 50 },
   pick: 'items'
 })
