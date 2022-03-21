@@ -4,7 +4,7 @@ import { useClonify } from '~~/stores/spotify';
 type RequestOptions = {
 	method?: string
 	body?: Record<string, unknown>
-	pick?: string[]
+	pick?: string
 	headers?: HeadersInit
 	params?: Record<string, unknown>,
 	server?: boolean
@@ -25,13 +25,14 @@ export const useApi = async <Result = unknown>(
 
 	headers = { ...headers, ...opts?.headers }
 
-	return useLazyFetch<string, Result>(endpoint, {
+	return useLazyFetch(endpoint, {
 		method: opts?.method,
 		body: opts?.body,
 		baseURL,
 		headers,
 		server: opts?.server,
 		params: opts?.params,
+		transform: (data) => { return opts?.pick ? data[opts.pick] : data },
 		// The default key implementation includes the baseURL in the hasing process.
 		// As this is different for server and client, the default implementation leads to different
 		// keys, resulting in hydration errors.

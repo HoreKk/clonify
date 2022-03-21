@@ -27,11 +27,10 @@ const emitCurrentColor = async (state: boolean) => {
 }
 
 class HomeCard {
-  id: string
   name: string
-  images: object[]
+  images: { url: string }[]
 
-  constructor (name: string, images: object[]) {
+  constructor (name: string, images: { url: string }[]) {
     this.name = name
     this.images = images
   }
@@ -44,9 +43,9 @@ const props = defineProps({
   },
 })
 
-const { album } = toRefs(props)
+const { album } = props
 
-const { name, images } = toRefs(album.value)
+const { name, images } = toRefs(reactive(album))
 
 if (!process.server) {
   var img = document.createElement('img');

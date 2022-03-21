@@ -10,7 +10,7 @@
         :class="isExactActive ? iconActive : icon" 
         class="mr-4 w-5 h-5" 
       />
-      <Text tag="p" classes="text-sm" :text="text" />
+      <Text tag="p" classes="text-sm line-clamp-1" :text="text" />
     </NuxtLink>
 </template>
 
@@ -42,8 +42,8 @@ const props = defineProps({
   },
 })
 
-const { item } = toRefs(props)
+const { item } = props
 
-const { text, link, icon, iconActive } = toRefs(item.value)
+const { text, link, icon, iconActive } = toRefs(reactive(item))
 
 </script>

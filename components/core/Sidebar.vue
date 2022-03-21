@@ -16,11 +16,10 @@
       />
     </div>
     <div class="w-full h-1px bg-[#282828] mt-4" />
-    <div v-if="!pending || playlists?.items" class="flex flex-col text-white overflow-y-scroll my-3 h-min-content">
+    <div v-if="!pending" class="flex flex-col text-white overflow-y-scroll my-3 h-min-content">
       <div 
-        v-for="item in playlists?.items" 
-        :key="item.id" 
-        style="-webkit-line-clamp: 1;"
+        v-for="item in playlists" 
+        :key="item.id"
         class="text-white/85 hover:text-white text-sm mt-3"
       >
         <span class="line-clamp-1 cursor-default">{{ item.name }}</span>
@@ -32,9 +31,8 @@
 <script lang="ts" setup>
 
 const { data: playlists, pending, error } = await useApi('/v1/me/playlists', {
-  params: {
-    limit: 50,
-  },
+  params: { limit: 50 },
+  pick: 'items'
 })
 
 const navigationsItems = [

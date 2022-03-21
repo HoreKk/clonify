@@ -35,10 +35,11 @@ const topAlbums = ref([...Array(6).keys()].map(item => ({ id: item, name: '', im
 
 const { data: topItems } = await useApi('/v1/me/top/tracks', {
   params: { time_range: 'short_term', limit: 40 },
+  pick: 'items',
 })
 
 if (topItems.value) {
-  var arr = topItems.value?.items
+  var arr = topItems.value
     .map(item => item.album)
     .map(item => ({ id: item["id"], value: item }))
   
