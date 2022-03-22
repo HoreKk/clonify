@@ -1,10 +1,22 @@
 <template>
   <div class="relative">
-    <div
-      id="gradientHome"
-      class="absolute -top-20 w-full h-85 opacity-20 bg-gradient-to-b from-[var(--current-album-color)]"
-      :style="isCardHomeHover ? { animation: 'enterGradient 0.5s linear' } : { animation: 'leaveGradient 0.5s linear' }"
-    />
+    <Presence>
+      <Motion
+        v-show="showCard"
+        id="motion-root"
+        class="absolute w-full -top-20 h-95"
+        @animationend="showCard = false"
+        :animate="{
+          opacity: isCardHomeHover ? .3 : 0,
+          'background-image': 'linear-gradient(var(--current-color), transparent)'
+        }"
+        :exit="{
+          opacity: 0,
+          'background-image': 'linear-gradient(rgba(18, 18, 18), transparent)'
+        }"
+        :transition="{ duration: 1.25, easing: 'ease-in-out' }"
+      />
+    </Presence>
     <div class="flex flex-col mx-10 text-white relative">
       <h1 class="text-4xl text-white font-bold">{{ welcomeMessage }}</h1>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 w-full mt-8">
@@ -18,16 +30,16 @@
 
 <script lang="ts" setup>
 
+import { Motion, Presence } from 'motion/vue'
+
 const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ? 'Bonjour' : 'Bonsoir'
 
-const defaultColor = ref<number[]>([18, 18, 18])
-const lastColor = ref<number[]>([18, 18, 18])
 const currentColor = ref<number[]>([18, 18, 18])
 const isCardHomeHover = ref(false)
+const showCard = ref(true)
 
-const setCurrentColor = (color: number[], isHover: boolean) => {
-  lastColor.value = isHover ? defaultColor.value : currentColor.value
-  currentColor.value = isHover ? color : defaultColor.value
+const setCurrentColor = async (color: number[], isHover: boolean) => {
+  currentColor.value = color
   isCardHomeHover.value = isHover
 }
 
@@ -56,30 +68,8 @@ if (topItems.value) {
 
 <style>
 
-#gradientHome {
-  --current-album-color: rgba(v-bind(currentColor));
-}
-
-@keyframes enterGradient {
-  from {
-    opacity: 0;
-    --current-album-color: rgba(v-bind(lastColor));
-  }
-  to {
-    opacity: .2;
-    --current-album-color: rgba(v-bind(currentColor));
-  }
-}
-
-@keyframes leaveGradient {
-  0% {
-    opacity: .2;
-    --current-album-color: rgba(v-bind(lastColor));
-  }
-  100% {
-    opacity: 0;
-    --current-album-color: rgba(v-bind(currentColor));
-  }
+#motion-root {
+  --current-color: rgba(v-bind(currentColor));
 }
 
 </style>
