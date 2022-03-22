@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 
-import { Motion, Presence } from 'motion/vue'
+import { Motion, Presence } from 'motion/dist/vue.es'
 
 const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ? 'Bonjour' : 'Bonsoir'
 
