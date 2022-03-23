@@ -10,12 +10,12 @@
         :show="isCardHover"
       />
       <img
-        v-if="images.length"
+        v-if="clonifyStore.isConnected && images.length"
         class="absolute shadow-card object-cover object-center w-full h-full"
         :class="type === 'artist' ? 'rounded-full' : 'rounded-lg'"
         :src="images[images?.length - 1]?.url"
       />
-      <div 
+      <div
         v-else 
         :class="[type === 'artist' ? 'rounded-full' : 'rounded-lg', !clonifyStore.isConnected && 'animate-pulse']" 
         class="absolute flex justify-center items-center w-full h-full bg-cl-grey-2 shadow-card" 

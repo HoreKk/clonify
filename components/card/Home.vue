@@ -6,7 +6,7 @@
     @mouseenter="emitCurrentColor(true)"
     @mouseleave="emitCurrentColor(false)"
   >
-    <img v-if="images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 shadow-card rounded-l select-none" />
+    <img v-if="clonifyStore.isConnected || images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 shadow-card rounded-l select-none" />
     <div v-else class="w-22 h-22 bg-cl-grey-2 mr-5 shadow-card rounded-l flex-none animate-pulse" />
     <SkeletonText tag="p" height="h-4" width="w-45%" :text="name" classes="font-semibold mx-4 line-clamp-2" />
     <ButtonPlayPause
@@ -23,6 +23,9 @@
 import { PropType } from 'vue'
 import Vibrant from 'node-vibrant'
 import Item from '~~/types/item'
+import { useClonify } from '~~/stores/spotify'
+
+const clonifyStore = useClonify()
 
 const props = defineProps({
   album: {
