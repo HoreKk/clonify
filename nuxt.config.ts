@@ -47,19 +47,6 @@ export default defineNuxtConfig({
       gridtemplatecolumns: {
         'card': 'repeat(auto-fill,minmax(180px,1fr))'
       },
-      animation: {
-        translate: 'yes 3s ease-in-out',
-      },
-      keyframes: {
-        yes: {
-          '0%': {
-            transform: 'translateY(-200px)',
-          },
-          '100%': {
-            transform: 'translateY(0)',
-          },
-        },
-      }
     },
 
     // core options

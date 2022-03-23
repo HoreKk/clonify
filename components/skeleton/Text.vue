@@ -1,9 +1,13 @@
 <template>
-  <component v-if="clonifyStore.isConnected" :is="tag" :class="classes">
+  <component v-if="clonifyStore.isConnected && text" :is="tag" :class="classes">
     {{ text }}
   </component>
   <template v-else>
-    <div :style="!width && { width: getTextWidth(text) + 'px' }" :class="[height, width]" class="h-2 flex-shrink rounded-lg bg-cl-grey-2" />
+    <div
+      :style="!width && { width: getTextWidth(text) + 'px' }"
+      :class="[classesSkeleton, height, width]"
+      class="h-2 flex-shrink rounded-lg bg-cl-grey-2 animate-pulse"
+    />
   </template>
 </template>
 
@@ -26,6 +30,10 @@ defineProps({
   classes: {
     type: String,
     required: true,
+  },
+  classesSkeleton: {
+    type: String,
+    default: '',
   },
   tag: {
     type: String,

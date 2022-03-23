@@ -7,7 +7,8 @@ type RequestOptions = {
 	pick?: string
 	headers?: HeadersInit
 	params?: Record<string, unknown>,
-	server?: boolean
+	server?: boolean,
+	default?: () => unknown,
 }
 
 function getBaseURL() {
@@ -25,12 +26,13 @@ export const useApi = async <Result = unknown>(
 
 	headers = { ...headers, ...opts?.headers }
 
-	return useFetch(endpoint, {
+	return useLazyFetch(endpoint, {
 		method: opts?.method,
 		body: opts?.body,
 		baseURL,
 		headers,
 		server: opts?.server,
+		default: opts?.default ? opts?.default : () => undefined,
 		params: opts?.params,
 		transform: (data) => { return opts?.pick ? data[opts.pick] : data },
 		// The default key implementation includes the baseURL in the hasing process.

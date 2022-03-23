@@ -28,10 +28,12 @@ defineProps({
   isCardHover: {
     type: Boolean,
     required: true,
+    default: false,
   },
   currentColor: {
     type: Array,
     required: true,
+    default: [18,18,18]
   }
 })
 

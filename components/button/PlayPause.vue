@@ -31,7 +31,6 @@ const props = defineProps({
   },
   baseY: {
     type: Number,
-    required: true,
     default: 5,
   }
 })

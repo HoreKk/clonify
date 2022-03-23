@@ -10,7 +10,7 @@
         :class="isExactActive ? iconActive : icon" 
         class="mr-4 w-5 h-5" 
       />
-      <Text tag="span" classes="text-sm line-clamp-1 flex-1" :text="text" />
+      <SkeletonText tag="span" classes="text-sm line-clamp-1 flex-1" :text="text" />
     </NuxtLink>
 </template>
 

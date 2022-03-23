@@ -9,19 +9,28 @@
         class="absolute z-10 bottom-2 right-2" 
         :show="isCardHover"
       />
-      <img 
+      <img
+        v-if="images.length"
         class="absolute shadow-card object-cover object-center w-full h-full"
         :class="type === 'artist' ? 'rounded-full' : 'rounded-lg'"
-        :src="images[2]?.url"
+        :src="images[images?.length - 1]?.url"
       />
+      <div 
+        v-else 
+        :class="[type === 'artist' ? 'rounded-full' : 'rounded-lg', !clonifyStore.isConnected && 'animate-pulse']" 
+        class="absolute flex justify-center items-center w-full h-full bg-cl-grey-2 shadow-card" 
+      >
+        <div v-if="clonifyStore.isConnected" class="i-ph-music-notes-simple-light text-cl-subdued w-62% h-62%" />
+      </div>
     </div>
-    <div class="flex flex-col">
-      <span class="text-md font-semibold mt-5 line-clamp-1">
-        {{ name }}
-      </span>
-      <span v-if="type" class="text-sm text-[#a7a7a7] mt-1">
-        {{ $itemTypes[type] }}
-      </span>
+    <div class="flex flex-col mt-5">
+      <SkeletonText :text="name" classes="text-md font-semibold line-clamp-1" width="w-24" height="h-3" />
+      <SkeletonText
+        :text="$itemDescription(name, description)[type]"
+        classes="text-sm text-cl-subdued mt-2 line-clamp-2 h-10"
+        classesSkeleton="mt-1"
+        width="w-8"
+      />
     </div>
   </div>
 
@@ -31,8 +40,10 @@
 
 import { PropType } from 'vue'
 import Item from '~~/types/item'
+import { useClonify } from '~~/stores/spotify';
 
-const { $itemTypes } = useNuxtApp()
+const { $itemTypes, $itemDescription } = useNuxtApp()
+const clonifyStore = useClonify()
 
 const isCardHover = ref(false)
 
@@ -49,7 +60,6 @@ const props = defineProps({
 
 const { item } = props
 
-const { name, type, images } = toRefs(reactive(item))
-
+const { name, description, type, images } = toRefs(reactive(item))
 
 </script>

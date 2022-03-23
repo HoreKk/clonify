@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
 
-import { useStorage } from '@vueuse/core'
-
 export interface SpotifyCredentials {
   access_token?: string
   token_type?: string
@@ -9,10 +7,17 @@ export interface SpotifyCredentials {
   state?: string
 }
 
+export interface SpotifyUser {
+  id?: string
+  display_name?: string
+  images?: { url: string }[]
+  state?: string
+}
+
 export const useClonify = defineStore('clonify', {
   state: () => ({
     credentials: useCookie<SpotifyCredentials>('clonify-credentials'),
-    user: useCookie('clonify-user'),
+    user: useCookie<SpotifyUser>('clonify-user'),
     isLoading: false,
   }),
   getters: {
