@@ -18,7 +18,7 @@
         </MenuButton>
         <MenuItems class="absolute flex flex-col text-white/95 mt-2 bg-grey rounded-md p-1 w-full ">
           <MenuItem v-slot="{ active }">
-            <a @click="logout" class="px-3 cursor-pointer py-2 rounded-md text-sm hover:text-white hover:bg-grey-hover">
+            <a @click="logout" class="px-3 cursor-pointer py-2 rounded-md text-sm hover:(text-white bg-grey-hover)">
               Déconnexion
             </a>
           </MenuItem>

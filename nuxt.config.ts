@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from 'nuxt3'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
@@ -21,6 +22,10 @@ export default defineNuxtConfig({
     // presets
     icons: true, // enabled `@unocss/preset-icons`
     preflight: true,
+    transformers: [
+      transformerVariantGroup(), 
+    ],
+
     webFonts: {
       fonts: {
         sans: 'Raleway:100;200;300;400;500;600;700;800;900',
@@ -37,10 +42,23 @@ export default defineNuxtConfig({
         'cl-subdued': '#a7a7a7',
       },
       boxShadow: {
-        'card': '0 8px 24px rgb(0 0 0 / 50%)'
+        card: '0 8px 24px rgb(0 0 0 / 50%)'
       },
       gridtemplatecolumns: {
         'card': 'repeat(auto-fill,minmax(180px,1fr))'
+      },
+      animation: {
+        translate: 'yes 3s ease-in-out',
+      },
+      keyframes: {
+        yes: {
+          '0%': {
+            transform: 'translateY(-200px)',
+          },
+          '100%': {
+            transform: 'translateY(0)',
+          },
+        },
       }
     },
 

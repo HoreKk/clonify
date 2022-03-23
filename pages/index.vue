@@ -12,12 +12,12 @@
         <h4 class="text-xl font-bold cursor-pointer underline-offset-1 hover:underline">
           Vos Artistes préférés
         </h4>
-        <span class="text-md text-cl-subdued font-semibold cursor-pointer uppercase underline-offset-1 hover:underline">
+        <span class="text-cl-subdued font-semibold text-sm cursor-pointer uppercase underline-offset-1 hover:underline">
           Voir tout
         </span>
       </div>
       <div class="grid grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))] grid-rows-1 auto-rows-0 gap-x-4 mt-4 overflow-hidden">
-        <Card v-for="(artist, i) in topArtists" :key="artist.id" :item="artist" :index="i" />
+        <CardBasic v-for="(artist, i) in topArtists" :key="artist.id" :item="artist" :index="i" />
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ const [
     pick: 'items',
   }),
   useApi('/v1/me/top/artists', {
-    params: { time_range: 'short_term', limit: 5 },
+    params: { time_range: 'short_term', limit: 6 },
     pick: 'items',
   }),
 ])  

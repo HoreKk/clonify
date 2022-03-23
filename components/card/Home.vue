@@ -9,10 +9,11 @@
     <img v-if="images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 shadow-card rounded-l select-none" />
     <div v-else class="w-22 h-22 bg-grey-2 mr-4 shadow-card rounded-l flex-none" />
     <Text tag="p" height="h-4" width="w-45%" :text="name" classes="font-semibold mx-4 line-clamp-2" />
-    <CardButtonPlayPause 
-      class="ml-auto shrink-0 mr-6" 
+    <ButtonPlayPause
+      class="ml-auto shrink-0 mr-6"
       :show="forceShowButtonPlayer ? forceShowButtonPlayer : isCardHomeHover"
-      @emit-force-show="(show) => forceShowButtonPlayer = show" 
+      :baseY="0"
+      @emit-force-show="(show) => forceShowButtonPlayer = show"
     />
   </div>
 </template>

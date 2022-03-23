@@ -1,8 +1,14 @@
 <template>
   <div
     class="bg-cl-black-2 transition-colors hover:bg-cl-grey p-5 backdrop-blur relative rounded-lg cursor-pointer shadow-xl"
+    @mouseenter="isCardHover = true"
+    @mouseleave="isCardHover = false"
   >
     <div class="relative pb-[100%]">
+      <ButtonPlayPause 
+        class="absolute z-10 bottom-2 right-2" 
+        :show="isCardHover"
+      />
       <img 
         class="absolute shadow-card object-cover object-center w-full h-full"
         :class="type === 'artist' ? 'rounded-full' : 'rounded-lg'"
@@ -14,7 +20,7 @@
         {{ name }}
       </span>
       <span v-if="type" class="text-sm text-[#a7a7a7] mt-1">
-        {{ itemTypes[type] }}
+        {{ $itemTypes[type] }}
       </span>
     </div>
   </div>
@@ -26,12 +32,9 @@
 import { PropType } from 'vue'
 import Item from '~~/types/item'
 
-const itemTypes = {
-  album: 'Album',
-  artist: 'Artiste',
-  playlist: 'Playlist',
-  track: 'Titre',
-}
+const { $itemTypes } = useNuxtApp()
+
+const isCardHover = ref(false)
 
 const props = defineProps({
   item: {
