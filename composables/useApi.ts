@@ -25,7 +25,7 @@ export const useApi = async <Result = unknown>(
 
 	headers = { ...headers, ...opts?.headers }
 
-	return useLazyFetch(endpoint, {
+	return useFetch(endpoint, {
 		method: opts?.method,
 		body: opts?.body,
 		baseURL,

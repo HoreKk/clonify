@@ -6,8 +6,8 @@
     @mouseenter="emitCurrentColor(true)"
     @mouseleave="emitCurrentColor(false)"
   >
-    <img v-if="images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 rounded-l select-none" />
-    <div v-else class="w-22 h-22 bg-cl-card-hover mr-4 rounded-l flex-none" />
+    <img v-if="images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 shadow-card rounded-l select-none" />
+    <div v-else class="w-22 h-22 bg-grey-2 mr-4 shadow-card rounded-l flex-none" />
     <Text tag="p" height="h-4" width="w-45%" :text="name" classes="font-semibold mx-4 line-clamp-2" />
     <CardButtonPlayPause 
       class="ml-auto shrink-0 mr-6" 
@@ -21,20 +21,11 @@
 
 import { PropType } from 'vue'
 import Vibrant from 'node-vibrant'
-
-class CardHome {
-  name: string
-  images: { url: string }[]
-
-  constructor (name: string, images: { url: string }[]) {
-    this.name = name
-    this.images = images
-  }
-}
+import Item from '~~/types/item'
 
 const props = defineProps({
   album: {
-    type: Object as PropType<CardHome>,
+    type: Object as PropType<Item>,
     required: true,
   },
 })
@@ -53,7 +44,7 @@ const emitCurrentColor = async (state: boolean) => {
 }
 
 const cardHomeRef = ref(null)
-const isCardHomeHover = ref(!images.value.length)
+const isCardHomeHover = ref(false)
 const forceShowButtonPlayer = ref(false)
 const palette = ref(null)
 

@@ -29,9 +29,9 @@
     <div class="flex flex-col h-full">
       <div class="flex h-90%">
         <CoreSidebar class="min-w-75 w-20%" />
-        <div class="w-full bg-cl-black-2 relative">
-          <CoreHeaderbar class="absolute top-0 bg-transparent" />
-          <NuxtPage class="w-full mt-20"/>
+        <div class="w-full bg-cl-black relative overflow-auto pb-12">
+          <CoreHeaderbar class="sticky top-4 bg-transparent w-full" />
+          <NuxtPage class="w-full pt-16 -mt-4"/>
         </div>
       </div>
       <CorePlayerbar class="w-full h-10%" />

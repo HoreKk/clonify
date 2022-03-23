@@ -3,7 +3,7 @@
     {{ text }}
   </component>
   <template v-else>
-    <div :style="!width && { width: getTextWidth(text) + 'px' }" :class="[height, width]" class="h-2 flex-shrink rounded-lg bg-cl-card-hover" />
+    <div :style="!width && { width: getTextWidth(text) + 'px' }" :class="[height, width]" class="h-2 flex-shrink rounded-lg bg-cl-grey-2" />
   </template>
 </template>
 

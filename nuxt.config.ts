@@ -30,19 +30,17 @@ export default defineNuxtConfig({
     theme: {
       colors: {
         'cl-primary': '#1ed760',
-        'cl-black': '#191414',
-        'cl-black-2': '#121212',
-        'cl-card': '#282828',
-        'cl-card-hover': '#3E3E3E',
+        'cl-black': '#121212',
+        'cl-black-2': '#181818',
+        'cl-grey': '#282828',
+        'cl-grey-2': '#3E3E3E',
+        'cl-subdued': '#a7a7a7',
       },
-      keyframes: {
-        pop: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 0.2 },
-        }
+      boxShadow: {
+        'card': '0 8px 24px rgb(0 0 0 / 50%)'
       },
-      animation: {
-        pop: 'pop 5s ease-in-out',
+      gridtemplatecolumns: {
+        'card': 'repeat(auto-fill,minmax(180px,1fr))'
       }
     },
 
