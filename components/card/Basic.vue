@@ -13,7 +13,7 @@
         v-if="clonifyStore.isConnected && images.length"
         class="absolute shadow-card object-cover object-center w-full h-full"
         :class="type === 'artist' ? 'rounded-full' : 'rounded-lg'"
-        :src="images[images?.length - 1]?.url"
+        :src="images[displayImages.length - 1]?.url"
       />
       <div
         v-else 
@@ -42,7 +42,7 @@ import { PropType } from 'vue'
 import Item from '~~/types/item'
 import { useClonify } from '~~/stores/spotify';
 
-const { $itemTypes, $itemDescription } = useNuxtApp()
+const { $itemDescription } = useNuxtApp()
 const clonifyStore = useClonify()
 
 const isCardHover = ref(false)
@@ -52,14 +52,15 @@ const props = defineProps({
     type: Object as PropType<Item>,
     required: true,
   },
-  index: {
-    type: Number,
-    required: true,
-  }
 })
 
 const { item } = props
 
 const { name, description, type, images } = toRefs(reactive(item))
+
+const displayImages = computed(() => images.value.filter(img => {
+  if (!img.width) return img
+  return img.width >= 100
+}))
 
 </script>
