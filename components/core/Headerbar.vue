@@ -36,12 +36,11 @@ import { useClonify } from '~/stores/spotify'
 const clonifyStore = useClonify()
 const nuxtApp = useNuxtApp()
 const router = useRouter()
-const route = useRoute()
 
 onMounted(() => window.addEventListener("scroll", onScroll, true))
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
 const bgNavbar = ref('rgba(28, 28, 28, 0)')
-const onScroll = (e) => bgNavbar.value ='rgba(28,28,28,' + (e.target.scrollTop / 200) + ')'
+const onScroll = (e) => bgNavbar.value = `rgba(28,28,28,${e.target.scrollTop / 200})`
 
 const logout = () => {
   nuxtApp.$cookies.remove('clonify-credentials')
@@ -56,7 +55,6 @@ const logout = () => {
 }
 
 </script>
-
 
 <style>
 
