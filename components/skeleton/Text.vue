@@ -28,7 +28,7 @@ defineProps({
     default: '',
   },
   classes: {
-    type: String,
+    type: String || Array,
     required: true,
   },
   classesSkeleton: {

@@ -43,7 +43,7 @@ const navigationsItems = [
 
 const otherItems = [
   { text: 'Créer une playlist', link: '/new-playlist', icon: 'i-teenyicons-add-outline', iconActive: 'i-teenyicons-home-solid' },
-  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-search-solid' },
+  { text: 'Titres likés', link: '/collection/tracks', icon: 'i-teenyicons-heart-outline', iconActive: 'i-teenyicons-heart-solid' },
   { text: 'Vos épisodes', link: '/collection/episodes', icon: 'i-teenyicons-target-outline', iconActive: 'i-teenyicons-target-solid' },
   { text: '', link: '/callback', icon: 'i-dsad', iconActive: 'i-mdi:broadcast' },
 ]

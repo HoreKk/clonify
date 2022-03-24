@@ -1,10 +1,10 @@
 <template>
   <Presence>
     <Motion
-      v-show="show"
+      :initial="{ opacity: 0, y: show ? 0 : baseY }"
       :animate="{ opacity: show ? 1 : 0, y: show ? 0 : baseY }"
       :exit="{ opacity: 0, y: baseY }"
-      :transition="{ duration: .25, easing: 'ease-in-out' }"  
+      :transition="{ duration: .3, easing: 'linear' }"
     >
       <div
         class="flex justify-center items-center rounded-full w-13 h-13 bg-cl-primary select-none shadow-card hover:(scale-103 brightness-105) active:(scale-100 brightness-75)"

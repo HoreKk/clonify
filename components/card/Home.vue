@@ -8,7 +8,13 @@
   >
     <img v-if="clonifyStore.isConnected && images.length" :src="images[0]?.url" crossorigin="anonymous" class="w-22 h-22 shrink-0 shadow-card rounded-l select-none" />
     <div v-else class="w-22 h-22 bg-cl-grey-2 mr-5 shadow-card rounded-l flex-none animate-pulse" />
-    <SkeletonText tag="p" height="h-4" width="w-45%" :text="name" classes="font-semibold mx-4 line-clamp-2" />
+    <SkeletonText
+      tag="p"
+      height="h-4"
+      width="w-45%"
+      :text="name"
+      classes="font-semibold mx-4 line-clamp-2"
+    />
     <ButtonPlayPause
       class="ml-auto shrink-0 mr-6"
       :show="forceShowButtonPlayer ? forceShowButtonPlayer : isCardHomeHover"
@@ -42,7 +48,7 @@ const emit = defineEmits<{
   (e: 'emit-current-color', color: number[], isHover: boolean): void
 }>()
 
-const emitCurrentColor = async (state: boolean) => {
+const emitCurrentColor = (state: boolean) => {
   isCardHomeHover.value = state
   emit('emit-current-color', palette.value?.Vibrant?.rgb, state)
 }
