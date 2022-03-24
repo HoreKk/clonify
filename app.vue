@@ -30,8 +30,8 @@
       <div class="flex h-90%">
         <CoreSidebar class="min-w-75 w-20%" />
         <div class="w-full bg-cl-black relative overflow-auto pb-12">
-          <CoreHeaderbar class="sticky top-4 bg-transparent w-full" />
-          <NuxtPage class="w-full pt-16 -mt-4"/>
+          <CoreHeaderbar class="sticky top-0 py-4 w-full" />
+          <NuxtPage class="w-full pt-12 -mt-4"/>
         </div>
       </div>
       <CorePlayerbar class="w-full h-10%" />

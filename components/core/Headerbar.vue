@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center justify-between z-10 px-8">
+  <div id="headerbar-root" class="flex items-center justify-between z-10 px-8" :style="{ 'background-color': 'var(--bg-cl-grey)' }">
     <div class="flex text-white">
       <button @click="router.back()" class="flex justify-center items-center mr-5 bg-black rounded-full p-2 disabled:opacity-75 disabled:cursor-wait">
-        <div class="i-ion-chevron-left w-5 h-5 " />
+        <div class="i-akar-icons-chevron-left w-5 h-5 mr-1px " />
       </button>
       <button @click="router.forward()" class="flex justify-center items-center mr-5 bg-black rounded-full p-2 disabled:opacity-75 disabled:cursor-wait">
-        <div class="i-ion-chevron-right w-5 h-5 " />
+        <div class="i-akar-icons-chevron-right w-5 h-5 ml-1px" />
       </button>
     </div>
     <div class="relative">
@@ -17,7 +17,7 @@
           <div class="i-mdi-menu-down w-8 h-8" />
         </MenuButton>
         <MenuItems class="absolute flex flex-col text-white/95 mt-2 bg-cl-grey rounded-md p-1 w-full ">
-          <MenuItem v-slot="{ active }">
+          <MenuItem>
             <a @click="logout" class="px-3 cursor-pointer py-2 rounded-md text-sm hover:(text-white bg-cl-grey-2)">
               Déconnexion
             </a>
@@ -38,6 +38,11 @@ const nuxtApp = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 
+onMounted(() => window.addEventListener("scroll", onScroll, true))
+onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
+const bgNavbar = ref('rgba(28, 28, 28, 0)')
+const onScroll = (e) => bgNavbar.value ='rgba(28,28,28,' + (e.target.scrollTop / 200) + ')'
+
 const logout = () => {
   nuxtApp.$cookies.remove('clonify-credentials')
   nuxtApp.$cookies.remove('clonify-user')
@@ -51,3 +56,12 @@ const logout = () => {
 }
 
 </script>
+
+
+<style>
+
+#headerbar-root {
+  --bg-cl-grey: v-bind(bgNavbar);
+}
+
+</style>
