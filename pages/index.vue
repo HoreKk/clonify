@@ -105,7 +105,7 @@ if (!pendingTopAlbums.value && !errorTopAlbums.value) {
 }
 
 watch(topAlbums, (newTopAlbums) => newTopAlbums.length !== 6 && formatTopAlbums(newTopAlbums))
-console.log(errorSavedAlbums)
+
 const displaySavedAlbums = ref(!errorSavedAlbums.value ? savedAlbums.value.map(item => item.album) : savedAlbums.value)
 
 const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ? 'Bonjour' : 'Bonsoir'
