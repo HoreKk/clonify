@@ -26,7 +26,7 @@
     <div class="flex flex-col mt-5">
       <SkeletonText :text="name" classes="text-md font-semibold line-clamp-1" width="w-24" height="h-3" />
       <SkeletonText
-        :text="$itemDescription(name, description)[type]"
+        :text="$itemDescription(name, { description, artists })[type]"
         classes="text-sm text-cl-subdued mt-2 line-clamp-2 h-10"
         classesSkeleton="mt-1"
         width="w-8"
@@ -56,7 +56,7 @@ const props = defineProps({
 
 const { item } = props
 
-const { name, description, type, images } = toRefs(reactive(item))
+const { name, description, type, images, artists } = toRefs(reactive(item))
 
 const displayImages = computed(() => images.value.filter(img => {
   if (!img.width) return img

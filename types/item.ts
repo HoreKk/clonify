@@ -3,11 +3,13 @@ export default class Item {
   description?: string
   images: { url: string, width: number, height: number }[]
   type?: string
+  artists?: { name: string }[]
 
-  constructor (name: string, description: string, type: string, images: { url: string, width: number, height: number }[]) {
+  constructor (name: string, description: string, type: string, images: { url: string, width: number, height: number }[], artists?: { name: string }[]) {
     this.name = name
     this.description = description
     this.type = type
     this.images = images
+    this.artists = artists
   }
 }
