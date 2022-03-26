@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col bg-black pt-6 px-6">
+  <div class="flex flex-col bg-black pt-6 md:px-6">
     <CoreLogo />
     <div class="flex flex-col gap-y-5 mt-8 text-white/85">
       <NavItem 

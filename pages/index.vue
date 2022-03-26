@@ -53,6 +53,8 @@
 
 <script lang="ts" setup>
 
+const limitRow = 10;
+
 const [
     { data: topAlbums, pending: pendingTopAlbums, error: errorTopAlbums },
     { data: playlists },
@@ -67,17 +69,17 @@ const [
   useApi('/v1/me/playlists', {
     params: { limit: 40 },
     pick: 'items',
-    default: () => [...Array(6).keys()].map(item => ({ id: item, type: 'playlist', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'playlist', name: '', images: [] }))
   }),
   useApi('/v1/me/top/artists', {
-    params: { time_range: 'short_term', limit: 6 },
+    params: { time_range: 'short_term', limit: limitRow },
     pick: 'items',
-    default: () => [...Array(6).keys()].map(item => ({ id: item, type: 'artist', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'artist', name: '', images: [] }))
   }),
   useApi('/v1/me/albums', {
-    params: { limit: 6 },
+    params: { limit: limitRow },
     pick: 'items',
-    default: () => [...Array(6).keys()].map(item => ({ id: item, type: 'album', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'album', name: '', images: [] }))
   }),
 ])
 

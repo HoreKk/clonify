@@ -20,7 +20,7 @@
     "http-proxy-middleware": "^2.0.4",
     "motion": "^10.7.0",
     "node-vibrant": "^3.1.6",
-    "nuxt3": "latest"
+    "nuxt3": "^3.0.0-27470397.9ebea90"
   },
   "dependencies": {
     "@headlessui/vue": "0.0.0-insiders.2dbc38c",

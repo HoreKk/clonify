@@ -20,7 +20,7 @@ export default defineNuxtPlugin(() => {
       },
       itemDescription: (name, { description = null, artists = null }) => {
         return {
-          album: artists && getArtistNames(artists),
+          album: artists ? getArtistNames(artists) : '',
           artist: name,
           playlist: description ? description : `Par ${clonifyStore.user?.display_name}`,
           track: name,
