@@ -1,5 +1,6 @@
 <template>
-  <div
+  <NuxtLink
+    :to="`/item-${type}/${id}`"
     class="bg-cl-black-2 transition-colors hover:bg-cl-grey p-5 backdrop-blur relative rounded-lg cursor-pointer shadow-xl"
     @mouseenter="isCardHover = true"
     @mouseleave="isCardHover = false"
@@ -10,7 +11,7 @@
         :show="isCardHover"
       />
       <img
-        v-if="clonifyStore.isConnected && images.length"
+        v-if="clonifyStore.isConnected && images?.length"
         class="absolute shadow-card object-cover object-center w-full h-full"
         :class="type === 'artist' ? 'rounded-full' : 'rounded-lg'"
         :src="images[displayImages.length - 1]?.url"
@@ -32,8 +33,7 @@
         width="w-8"
       />
     </div>
-  </div>
-
+  </NuxtLink>
 </template>
 
 <script lang="ts" setup>
@@ -56,7 +56,7 @@ const props = defineProps({
 
 const { item } = props
 
-const { name, description, type, images, artists } = toRefs(reactive(item))
+const { id, name, description, type, images, artists } = toRefs(reactive(item))
 
 const displayImages = computed(() => images.value.filter(img => {
   if (!img.width) return img

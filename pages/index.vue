@@ -59,27 +59,27 @@ const [
     { data: topAlbums, pending: pendingTopAlbums, error: errorTopAlbums },
     { data: playlists },
     { data: topArtists },
-    { data: savedAlbums, error: errorSavedAlbums },
+    { data: savedAlbums, pending: pendingSavedAlbums, error: errorSavedAlbums },
   ] = await Promise.all([
   useApi('/v1/me/top/tracks', {
     params: { time_range: 'short_term', limit: 40 },
     pick: 'items',
-    default: () => [...Array(6).keys()].map(item => ({ id: item, name: '', images: [] }))
+    default: () => [...Array(6).keys()].map(item => ({ id: item.toString(), name: '', images: [] }))
   }),
   useApi('/v1/me/playlists', {
     params: { limit: 40 },
     pick: 'items',
-    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'playlist', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item.toString(), type: 'playlist', name: '', images: [] }))
   }),
   useApi('/v1/me/top/artists', {
     params: { time_range: 'short_term', limit: limitRow },
     pick: 'items',
-    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'artist', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item.toString(), type: 'artist', name: '', images: [] }))
   }),
   useApi('/v1/me/albums', {
     params: { limit: limitRow },
     pick: 'items',
-    default: () => [...Array(limitRow).keys()].map(item => ({ id: item, type: 'album', name: '', images: [] }))
+    default: () => [...Array(limitRow).keys()].map(item => ({ id: item.toString(), type: 'album', name: '', images: [] }))
   }),
 ])
 
@@ -99,16 +99,15 @@ const formatTopAlbums = (newTopAlbums = null) => {
   displayTopAlbums.value = topAlbums.value
 }
 
-const defaultTopAlbums = [...Array(6).keys()].map(item => ({ id: item, name: '', images: [] }))
+const defaultTopAlbums = [...Array(6).keys()].map(item => ({ id: item.toString(), name: '', images: [] }))
 const displayTopAlbums = ref(defaultTopAlbums)
+const displaySavedAlbums = ref([...Array(limitRow).keys()].map(item => ({ id: item.toString(), type: 'album', name: '', images: [] })))
 
-if (!pendingTopAlbums.value && !errorTopAlbums.value) {
-  formatTopAlbums()
-}
-
-watch(topAlbums, (newTopAlbums) => newTopAlbums.length !== 6 && formatTopAlbums(newTopAlbums))
-
-const displaySavedAlbums = ref(!errorSavedAlbums.value ? savedAlbums.value.map(item => item.album) : savedAlbums.value)
+watch(topAlbums, (newTopAlbums) => newTopAlbums.length !== 6 && formatTopAlbums(newTopAlbums), { immediate: true })
+watch(savedAlbums, (newSavedAlbums) => {
+  const isFormatted = !newSavedAlbums[0].hasOwnProperty('added_at')
+  if (!isFormatted) displaySavedAlbums.value = newSavedAlbums.map(item => item.album) 
+}, { immediate: true })
 
 const welcomeMessage = new Date().getHours() > 6 && new Date().getHours() < 19 ? 'Bonjour' : 'Bonsoir'
 
