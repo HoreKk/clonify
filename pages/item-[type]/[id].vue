@@ -6,8 +6,9 @@
         <span class="uppercase text-xs font-semibold">{{ item?.type }}</span>
         <h2 class="font-bold text-20 leading-20">{{ item?.name }}</h2>
         <div class="flex items-center mt-2">
-          <template v-for="artist in item?.artists" :key="artist.id">
+          <template v-for="(artist, index) in item?.artists" :key="artist.id">
             <NuxtLink :to="`/artist/${artist?.id}`" class="text-sm font-bold hover:underline">
+              {{ index !== 0 ? `, ` : '' }}
               {{ artist?.name}}
             </NuxtLink>
           </template>
@@ -62,24 +63,26 @@ import Vibrant from 'node-vibrant'
 const tracksHeader = ref(null)
 const artistAlbums = ref([...Array(10).keys()].map(item => ({ id: item.toString(), type: 'album', name: '', images: [] })))
 const isHeaderSticky = ref(false)
-const { $itemTypes } = useNuxtApp()
+const { $itemTypes, $cookies } = useNuxtApp()
 const router = useRouter()
 const { params: { type, id }} = useRoute()
 
 if (!$itemTypes[type] || type === 'artist') router.back()
 
 const itemVibrant = ref([18,18,18])
+
 const { data: item } = await useApi(`/v1/${type}s/${id}`)
-const { data: tmpArtistAlbums } = await useApi(`/v1/artists/${item.value?.artists[0]?.id}/albums`, {
-  pick: 'items',
-})
 
-watch(tmpArtistAlbums, async(newTmp) => {
-  if (newTmp) artistAlbums.value = newTmp
+watch(item, async(newItem) => {
+  if (newItem) {
+    const itemPalette = await Vibrant.from(newItem?.images[0]?.url)?.getPalette()
+    itemVibrant.value = itemPalette.Vibrant?.rgb
+    const { items } = await $fetch(`${process.server ? 'https://api.spotify.com/v1' : '/v1'}/artists/${item.value?.artists[0]?.id}/albums`, {
+      headers: { Authorization: $cookies.get('clonify-auth-token') }
+    })
+    artistAlbums.value = items
+  }
 }, { immediate: true })
-
-const itemPalette = await Vibrant.from(item.value.images[0].url).getPalette()
-itemVibrant.value = itemPalette.Vibrant?.rgb
 
 function getAlbumDuration (album) {
   if (album?.tracks) {
@@ -89,7 +92,9 @@ function getAlbumDuration (album) {
   } 
 }
 
-onMounted(() => window.addEventListener("scroll", onScroll, true))
+onMounted( async() => {
+  window.addEventListener("scroll", onScroll, true)
+})
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
 const onScroll = () => {
   if (tracksHeader.value) isHeaderSticky.value = tracksHeader.value.offsetTop > 0
