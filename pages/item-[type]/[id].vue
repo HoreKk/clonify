@@ -58,10 +58,8 @@
 <script setup>
 
 import Vibrant from 'node-vibrant'
-import { Motion } from 'motion/dist/vue.es'
 
 const tracksHeader = ref(null)
-const lol = ref(null)
 const artistAlbums = ref([...Array(10).keys()].map(item => ({ id: item.toString(), type: 'album', name: '', images: [] })))
 const isHeaderSticky = ref(false)
 const { $itemTypes } = useNuxtApp()
