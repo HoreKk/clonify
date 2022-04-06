@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative pt-12 -mt-4">
     <GradientBg :isCardHover="isCardHover" :currentColor="currentColor" />
     <div class="flex flex-col mx-10 text-white relative">
       <h1 class="text-4xl font-bold">{{ welcomeMessage }}</h1>

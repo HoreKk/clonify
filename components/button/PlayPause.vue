@@ -1,13 +1,13 @@
 <template>
   <Presence>
     <Motion
-      :initial="{ opacity: 0, y: show ? 0 : baseY }"
-      :animate="{ opacity: show ? 1 : 0, y: show ? 0 : baseY }"
-      :exit="{ opacity: 0, y: baseY }"
+      :initial="animate ? { opacity: 0, y: show ? 0 : baseY } : {}"
+      :animate="animate ? { opacity: show ? 1 : 0, y: show ? 0 : baseY } : {}"
+      :exit="animate ? { opacity: 0, y: baseY } : {}"
       :transition="{ duration: .3, easing: 'linear' }"
     >
       <div
-        class="flex justify-center items-center rounded-full w-13 h-13 bg-cl-primary select-none shadow-card hover:(scale-103 brightness-105) active:(scale-100 brightness-75)"
+        class="flex justify-center items-center rounded-full w-13 h-13 bg-cl-primary select-none shadow-card cursor-default hover:(scale-103 brightness-105) active:(scale-100 brightness-75)"
         @click="changeState"
       >
         <svg v-if="state" role="img" height="24" width="24" viewBox="0 0 24 24" class="Svg-sc-1bi12j5-0 hDgDGI">
@@ -32,6 +32,10 @@ const props = defineProps({
   baseY: {
     type: Number,
     default: 5,
+  },
+  animate: {
+    type: Boolean,
+    default: true,
   }
 })
 

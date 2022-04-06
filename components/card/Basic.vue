@@ -1,6 +1,6 @@
 <template>
   <NuxtLink
-    :to="`/item-${type}/${id}`"
+    :to="cardLink"
     class="bg-cl-black-2 transition-colors hover:bg-cl-grey p-5 backdrop-blur relative rounded-lg cursor-pointer shadow-xl"
     @mouseenter="isCardHover = true"
     @mouseleave="isCardHover = false"
@@ -57,6 +57,11 @@ const props = defineProps({
 const { item } = props
 
 const { id, name, description, type, images, artists } = toRefs(reactive(item))
+
+const cardLink = computed(() => {
+  if (type.value === 'artist') return `/artist/${id.value}`
+  return `/item-${type.value}/${id.value}`
+})
 
 const displayImages = computed(() => images.value.filter(img => {
   if (!img.width) return img

@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     SPOTIFY_REDIRECT_URI: process.env.SPOTIFY_REDIRECT_URI
   },
   build: {
-    transpile: ['@headlessui/vue']
+    transpile: ['@headlessui/vue', 'pinia']
   },
   buildModules: [
     '@unocss/nuxt',
