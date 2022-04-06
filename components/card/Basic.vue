@@ -63,7 +63,7 @@ const cardLink = computed(() => {
   return `/item-${type.value}/${id.value}`
 })
 
-const displayImages = computed(() => images.value.filter(img => {
+const displayImages = computed(() => images.value?.filter(img => {
   if (!img.width) return img
   return img.width >= 100
 }))
