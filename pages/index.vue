@@ -53,6 +53,12 @@
 
 <script lang="ts" setup>
 
+import { useClonify } from '~~/stores/spotify';
+
+const clonifyStore = useClonify()
+
+clonifyStore.currentItemDisplayName = ''
+
 const limitRow = 10;
 
 const [

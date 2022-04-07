@@ -1,12 +1,21 @@
 <template>
   <div id="headerbar-root" class="flex items-center justify-between z-10 px-8" :style="{ 'background-color': 'var(--bg-cl-grey)' }">
-    <div class="flex text-white">
+    <div class="flex items-center text-white">
       <button @click="router.back()" class="flex justify-center items-center mr-5 bg-black rounded-full p-2 disabled:opacity-75 disabled:cursor-wait">
         <div class="i-akar-icons-chevron-left w-5 h-5 mr-1px " />
       </button>
       <button @click="router.forward()" class="flex justify-center items-center mr-5 bg-black rounded-full p-2 disabled:opacity-75 disabled:cursor-wait">
         <div class="i-akar-icons-chevron-right w-5 h-5 ml-1px" />
       </button>
+      <Presence>
+        <Motion
+          v-show="opacity > 1"
+          :animate="{ opacity: opacity > 1 ? 1 : 0 }"
+          :exit="{ opacity: 0 }"
+        >
+          <h1 class="ml-2 text-xl font-semibold">{{ clonifyStore.currentItemDisplayName }}</h1>
+        </Motion>
+      </Presence>
     </div>
     <div class="relative">
       <Menu>
@@ -31,16 +40,21 @@
 <script lang="ts" setup>
 
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { Motion, Presence } from 'motion/dist/vue.es'
 import { useClonify } from '~/stores/spotify'
 
 const clonifyStore = useClonify()
 const nuxtApp = useNuxtApp()
 const router = useRouter()
+const bgNavbar = ref('rgba(28, 28, 28, 0)')
+const opacity = ref(0)
 
 onMounted(() => window.addEventListener("scroll", onScroll, true))
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
-const bgNavbar = ref('rgba(28, 28, 28, 0)')
-const onScroll = (e) => bgNavbar.value = `rgba(28,28,28,${e.target.scrollTop / 200})`
+const onScroll = (e) => {
+  bgNavbar.value = `rgba(28,28,28,${e.target.scrollTop / 200})`
+  opacity.value = e.target.scrollTop / 200
+}
 
 const logout = () => {
   nuxtApp.$cookies.remove('clonify-credentials')

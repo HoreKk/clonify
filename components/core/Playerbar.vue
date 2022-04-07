@@ -1,4 +1,5 @@
 <template>
-  <div class="bg-[#181818]">
+  <div>
+
   </div>
 </template>

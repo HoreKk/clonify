@@ -3,6 +3,13 @@ import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
+  },
   publicRuntimeConfig: {
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,

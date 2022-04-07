@@ -19,6 +19,7 @@ export const useClonify = defineStore('clonify', {
     credentials: useCookie<SpotifyCredentials>('clonify-credentials'),
     user: useCookie<SpotifyUser>('clonify-user'),
     isLoading: false,
+    currentItemDisplayName: '',
   }),
   getters: {
     isConnected: (state) => !!state.credentials?.access_token,
