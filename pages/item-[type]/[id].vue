@@ -71,14 +71,15 @@ if (!$itemTypes[type] || type === 'artist') router.back()
 
 const itemVibrant = ref([18,18,18])
 
-const { data: item } = await useApi(`/v1/${type}s/${id}`)
+const { data: item, loading } = await useApi(`/v1/${type}s/${id}`)
 
 watch(item, async(newItem) => {
-  if (newItem) {
-    const itemPalette = await Vibrant.from(newItem?.images[0]?.url)?.getPalette()
-    itemVibrant.value = itemPalette.Vibrant?.rgb
-    const { items } = await $fetch(`${process.server ? 'https://api.spotify.com/v1' : '/v1'}/artists/${item.value?.artists[0]?.id}/albums`, {
-      headers: { Authorization: $cookies.get('clonify-auth-token') }
+  if (newItem && !loading) {
+    const { items } = await $fetch(
+      `${process.server ? 'https://api.spotify.com/v1' : '/v1'}/artists/${item.value?.artists[0]?.id}/albums`, {
+      headers: { 
+        Authorization: $cookies.get('clonify-auth-token')
+      }
     })
     artistAlbums.value = items
   }
@@ -93,6 +94,14 @@ function getAlbumDuration (album) {
 }
 
 onMounted( async() => {
+  var img = document.createElement('img');
+  img.setAttribute('src', item.value?.images[0]?.url);
+  img.setAttribute('crossorigin', 'anonymous');
+  img.addEventListener('load', async () => {
+      var vibrant = new Vibrant(img);
+      let palette = await vibrant.getPalette();
+      itemVibrant.value = palette.Vibrant?.rgb
+  });
   window.addEventListener("scroll", onScroll, true)
 })
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
