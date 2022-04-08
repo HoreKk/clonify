@@ -1,5 +1,5 @@
 <template>
-  <div id="headerbar-root" class="flex items-center justify-between z-10 px-8" :style="{ 'background-color': 'var(--bg-cl-grey)' }">
+  <div id="headerbar-root" class="flex items-center justify-between z-10 px-8 bg-[var(--bg-cl-grey)]">
     <div class="flex items-center text-white">
       <button @click="router.back()" class="flex justify-center items-center mr-5 bg-black rounded-full p-2 disabled:opacity-75 disabled:cursor-wait">
         <div class="i-akar-icons-chevron-left w-5 h-5 mr-1px " />
@@ -13,7 +13,7 @@
           :animate="{ opacity: opacity > 1 ? 1 : 0 }"
           :exit="{ opacity: 0 }"
         >
-          <h1 class="ml-2 text-xl font-semibold">{{ clonifyStore.currentItemDisplayName }}</h1>
+          <h1 class="ml-2 text-xl font-semibold">{{ clonifyStore.currentItem.display_name }}</h1>
         </Motion>
       </Presence>
     </div>
@@ -46,14 +46,14 @@ import { useClonify } from '~/stores/spotify'
 const clonifyStore = useClonify()
 const nuxtApp = useNuxtApp()
 const router = useRouter()
-const bgNavbar = ref('rgba(28, 28, 28, 0)')
+const bgNavbar = ref(`rgba(${clonifyStore.currentItem.color}, 0)`)
 const opacity = ref(0)
 
 onMounted(() => window.addEventListener("scroll", onScroll, true))
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
 const onScroll = (e) => {
-  bgNavbar.value = `rgba(28,28,28,${e.target.scrollTop / 200})`
-  opacity.value = e.target.scrollTop / 200
+  opacity.value = e.target.scrollTop / 400
+  bgNavbar.value = `rgba(${clonifyStore.currentItem.color},${opacity.value})`
 }
 
 const logout = () => {

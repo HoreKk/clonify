@@ -57,16 +57,11 @@ import { useClonify } from '~~/stores/spotify';
 
 const clonifyStore = useClonify()
 
-clonifyStore.currentItemDisplayName = ''
+clonifyStore.currentItem = { display_name: '', color: '28,28,28' }
 
 const limitRow = 10;
 
-const [
-    { data: topAlbums, pending: pendingTopAlbums, error: errorTopAlbums },
-    { data: playlists },
-    { data: topArtists },
-    { data: savedAlbums, pending: pendingSavedAlbums, error: errorSavedAlbums },
-  ] = await Promise.all([
+const [{ data: topAlbums }, { data: playlists }, { data: topArtists }, { data: savedAlbums }] = await Promise.all([
   useApi('/v1/me/top/tracks', {
     params: { time_range: 'short_term', limit: 40 },
     pick: 'items',

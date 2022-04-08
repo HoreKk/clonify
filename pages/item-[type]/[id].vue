@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col text-white relative -mt-17">
     <div class="flex transition-colors current-color-item bg-[rgba(var(--current-color),0.3)] pt-20 px-8 pb-8">
-      <img class="shadow-card w-20%" :src="item?.images[0]?.url" />
+      <img class="shadow-card w-20% aspect-square object-cover" :src="item?.images[0]?.url" />
       <div class="flex flex-col px-6 justify-end">
         <span class="uppercase text-xs font-semibold">{{ item?.type }}</span>
         <h2 class="font-bold text-20 leading-20 mt-4">{{ item?.name }}</h2>
@@ -125,7 +125,6 @@ watch(item, async(newItem) => {
     }
     
     if (!process.server) {
-      setTimeout(() => clonifyStore.currentItemDisplayName = newItem?.name, 200)
       var img = document.createElement('img')
       img.setAttribute('src', item.value?.images[0]?.url)
       img.setAttribute('crossorigin', 'anonymous')
@@ -133,8 +132,13 @@ watch(item, async(newItem) => {
         var vibrant = new Vibrant(img)
         let palette = await vibrant.getPalette()
         itemVibrant.value = palette.Vibrant?.rgb
+        setTimeout(() => {
+          clonifyStore.currentItem.display_name = newItem?.name
+          clonifyStore.currentItem.color = itemVibrant.value
+        }, 200)
       })
     }
+    
   }
 }, { immediate: true })
 
@@ -146,13 +150,9 @@ function getAlbumDuration (album) {
   }
 }
 
-onMounted(() => {
-  window.addEventListener("scroll", onScroll, true)
-})
+onMounted(() => window.addEventListener("scroll", onScroll, true))
 onBeforeUnmount(() => window.removeEventListener("scroll", onScroll, true))
-const onScroll = () => {
-  if (tracksHeader.value) isHeaderSticky.value = tracksHeader.value.offsetTop > 0
-}
+const onScroll = () => isHeaderSticky.value = tracksHeader.value.offsetTop > 0
 
 </script>
 

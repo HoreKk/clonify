@@ -45,6 +45,19 @@ import { useClonify } from '~~/stores/spotify'
 
 import { DialogTitle } from '@headlessui/vue'
 
+const route = useRoute();
+const firstVisit = ref(true);
+
+watch(
+  route,
+  (n) => {
+    if (process.client) {
+      window.scrollTo({ top: -50, behavior: "smooth" });
+    }
+  },
+  { deep: true, immediate: true }
+);
+
 const clonifyStore = useClonify()
 
 const config = useRuntimeConfig()

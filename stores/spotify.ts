@@ -14,12 +14,22 @@ export interface SpotifyUser {
   state?: string
 }
 
+export interface CurrentItem {
+  display_name: string
+  color: string
+}
+
+const defaultItem: CurrentItem = {
+  display_name: '',
+  color: '28,28,28',
+}
+
 export const useClonify = defineStore('clonify', {
   state: () => ({
     credentials: useCookie<SpotifyCredentials>('clonify-credentials'),
     user: useCookie<SpotifyUser>('clonify-user'),
     isLoading: false,
-    currentItemDisplayName: '',
+    currentItem: defaultItem,
   }),
   getters: {
     isConnected: (state) => !!state.credentials?.access_token,

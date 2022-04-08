@@ -4,6 +4,9 @@
 
 #__nuxt {
   font-family: 'Raleway', sans-serif;
+  -webkit-font-feature-settings: "lnum";
+  -moz-font-feature-settings: "lnum";
+  font-feature-settings: "lnum";
 }
 
 html, body, #__nuxt, #app {
