@@ -6,7 +6,7 @@
     <div
       :style="!width && { width: getTextWidth(text) + 'px' }"
       :class="[classesSkeleton, height, width]"
-      class="h-2 flex-shrink rounded-lg bg-cl-grey-2 animate-pulse"
+      class="flex-shrink rounded-full bg-cl-grey-2 animate-pulse"
     />
   </template>
 </template>
@@ -24,12 +24,10 @@ function getTextWidth(text) {
 defineProps({
   text: {
     type: String,
-    required: true,
     default: '',
   },
   classes: {
     type: String || Array,
-    required: true,
   },
   classesSkeleton: {
     type: String,

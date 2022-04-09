@@ -63,9 +63,9 @@ const logout = () => {
   clonifyStore.$patch((state) => {
     state.user = null
     state.credentials = null
+    state.currentItem = { color: '', display_name: '' }
   })
   router.go(0)
-  router.push('/')
 }
 
 </script>

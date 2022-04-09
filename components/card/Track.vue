@@ -13,8 +13,8 @@
       </template>
     </div>
     <div :class="itemType == 'playlist' ? 'col-span-9' : 'col-span-19'" class="flex flex-col">
-      <span>{{ track?.name }}</span>
-      <div class="flex items-center">
+      <SkeletonText :text="track?.name" width="w-36" height="h-3" />
+      <div v-if="clonifyStore.isConnected" class="flex items-center">
         <NuxtLink
           v-for="(artist, index) in track?.artists"
           :key="artist.id"
@@ -25,18 +25,27 @@
           <span class="hover:underline">{{ artist?.name }}</span>
         </NuxtLink>
       </div>
+      <SkeletonText v-else width="w-16" classes-skeleton="mt-3" />
     </div>
     <div v-if="itemType == 'playlist'" class="col-span-5">
       <NuxtLink :to="'/item-album/' + track?.album?.id" class="text-sm" :class="!isHover && 'text-cl-subdued'">
-        <span class="hover:underline">{{ track?.album?.name }}</span>
+        <SkeletonText
+          :text="track?.album?.name"
+          classes="hover:underline"
+          width="w-18"
+        />
       </NuxtLink>
     </div>
     <div v-if="itemType == 'playlist'" class="col-span-5">
-      <span class="text-sm text-cl-subdued">{{ getDate(track?.added_at) }}</span>
+      <SkeletonText
+        :text="getFormattedDate(track?.added_at, 'dd MMM yyyy')"
+        classes="text-sm text-cl-subdued"
+        width="w-22"
+      />
     </div>
     <span class="col-span-4 flex items-center justify-end">
       <div v-if="isHover" class="i-teenyicons-heart-outline text-cl-subdued text-lg mt-1 hover:text-white" />
-      <span class="mx-6 text-cl-subdued">{{ getDuration(track?.duration_ms) }}</span>
+      <SkeletonText :text="getDuration(track?.duration_ms)" width="w-20" height="h-3" classes="mx-6 text-cl-subdued" />
       <div :class="isHover ? 'i-teenyicons-more-horizontal-solid' : 'w-[18px] h-[18px]'" class="text-cl-subdued text-lg hover:text-white" />
     </span>
   </div>
@@ -44,9 +53,11 @@
 
 <script setup lang="ts">
 
-import { format } from 'date-fns'
+import { format as fnsFormat } from 'date-fns'
 import { fr } from 'date-fns/locale/index.js'
+import { useClonify } from '~~/stores/spotify';
 
+const clonifyStore = useClonify()
 const isHover = ref(false)
 
 defineProps({
@@ -69,9 +80,9 @@ function getDuration (timeMs) {
   return `${date.getMinutes()}:${date.getSeconds() < 10 ? 0 : ''}${date.getSeconds()}`
 }
 
-function getDate (date) {
-  let tmpDate = new Date(date)
-  return format(tmpDate, 'dd MMM yyyy', { locale: fr })
+function getFormattedDate (date, format) {
+  if (!date) return
+  return fnsFormat(new Date(date), format, { locale: fr })
 }
 
 </script>

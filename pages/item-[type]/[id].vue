@@ -1,43 +1,68 @@
 <template>
   <div class="flex flex-col text-white relative -mt-17">
     <div class="flex transition-colors current-color-item bg-[rgba(var(--current-color),0.3)] pt-20 px-8 pb-8">
-      <img class="shadow-card w-20% aspect-square object-cover" :src="item?.images[0]?.url" />
+      <img 
+        v-if="clonifyStore.isConnected && item?.images?.length" 
+        class="shadow-card w-20% aspect-square object-cover"
+        :src="item?.images[0]?.url"
+      />
+      <div
+        v-else
+        :class="[!clonifyStore.isConnected && 'animate-pulse']" 
+        class="shadow-card w-20% aspect-square bg-cl-grey-2" 
+      />
       <div class="flex flex-col px-6 justify-end">
-        <span class="uppercase text-xs font-semibold">{{ item?.type }}</span>
-        <h2 class="font-bold text-20 leading-20 mt-4">{{ item?.name }}</h2>
-        <p v-if="item?.description" class="mt-4 text-cl-subdued">
-          {{ item?.description }}
-        </p>
-        <div class="flex items-center mt-2">
-          <template v-if="type === 'album'">
-            <NuxtLink 
-              v-for="(artist, index) in item?.artists"
-              :key="artist.id"
-              :to="`/artist/${artist?.id}`"
-              class="text-sm font-bold hover:underline"
-            >
-              {{ index !== 0 ? `, ` : '' }}
-              {{ artist?.name }}
-            </NuxtLink>
+        <SkeletonText :text="item?.type" height="h-4" width="w-16" classes="uppercase text-xs font-semibold" />
+        <SkeletonText :text="item?.name" tag="h2" width="w-82" height="h-12" classes="font-bold text-20 leading-20 mt-4" classesSkeleton="mt-4" />
+        <SkeletonText 
+          v-if="!clonifyStore.isConnected || item?.description"
+          :text="item?.description"
+          tag="p"
+          width="w-150"
+          height="h-3"
+          classesSkeleton="mt-4"
+          classes="mt-4 text-cl-subdued"
+        />
+        <div class="flex items-center mt-3">
+          <template v-if="clonifyStore.isConnected">
+            <template v-if="type === 'album'">
+              <NuxtLink 
+                v-for="(artist, index) in item?.artists"
+                :key="artist.id"
+                :to="`/artist/${artist?.id}`"
+                class="text-sm font-bold hover:underline"
+              >
+                {{ index !== 0 ? `, ` : '' }}
+                {{ artist?.name }}
+              </NuxtLink>
+            </template>
+            <template v-if="type === 'playlist'">
+              <NuxtLink :to="`/artist/${item?.owner?.id}`" class="text-sm font-bold hover:underline">
+                {{ item?.owner?.display_name }}
+              </NuxtLink>
+            </template>
           </template>
-          <template v-if="type === 'playlist'">
-            <NuxtLink :to="`/artist/${item?.owner?.id}`" class="text-sm font-bold hover:underline">
-              {{ item?.owner?.display_name }}
-            </NuxtLink>
+          <template v-else>
+            <SkeletonText width="w-16" />
           </template>
           <div class="w-1 h-1 bg-white rounded-full mx-1.5 mt-0.5" />
           <span class="text-sm">
-            <template v-if="type === 'playlist'">
-              {{ item?.followers?.total }} likes
-            </template>
-            <template v-if="type === 'album'">
-              {{ item?.release_date?.split('-')[0] }}
-            </template>
+            <SkeletonText 
+              :text="type == 'playlist' ? `${item?.followers?.total} likes` : item?.release_date?.split('-')[0]"
+              width="w-16"
+            />
           </span>
           <div class="w-1 h-1 bg-white rounded-full mx-1.5 mt-0.5" />
           <span class="text-sm">
-            {{ `${type == 'playlist' ? item?.tracks?.total :  item?.total_tracks} titres, ` }}
-            <span class="text-cl-subdued">{{ getAlbumDuration(item) }}</span>
+            <SkeletonText 
+              :text="(type == 'playlist' ? item?.tracks?.total : item?.total_tracks) + ' titres, '"
+              width="w-16"
+            />
+            <SkeletonText
+              classes="text-cl-subdued"
+              :text="getAlbumDuration(item)"
+              height="h-0"
+            />
           </span>
         </div>
       </div>
@@ -73,9 +98,12 @@
     </div>
     <div v-if="type === 'album'" class="flex flex-col mt-10 px-10">
       <div class="flex items-center justify-between">
-        <h4 class="text-xl font-bold cursor-pointer underline-offset-1 hover:underline">
-          Plus de contenus de {{ item?.artists[0]?.name }}
-        </h4>
+        <SkeletonText
+          tag="h4"
+          :text="`Plus de contenus de ${item?.artists[0]?.name }`"
+          classes="text-xl font-bold cursor-pointer underline-offset-1 hover:underline"
+          height="h-3"
+        />
         <span class="text-cl-subdued font-semibold text-sm cursor-pointer uppercase underline-offset-1 hover:underline">
           Voir la discographie
         </span>
@@ -105,16 +133,18 @@ if (!$itemTypes[type] || type === 'artist') router.back()
 
 const itemVibrant = ref([18,18,18])
 
-const { data: item } = await useApi(`/v1/${type}s/${id}`)
+const { data: item } = await useApi(`/v1/${type}s/${id}`, {
+  default: () => ({ tracks: { items: [...Array(10).keys()].map(key => ({ id: key.toString() })) }, images: [], artists: [] }),
+})
 
 watch(item, async(newItem) => {
-  if (newItem) {
+  if (newItem?.images?.length) {
 
     item.value.tracks.items = item.value.tracks.items.map(track => ({ ...track, ...track.track }))
 
     if (type === 'album') {
       let { items } = await $fetch(
-        `${process.server ? 'https://api.spotify.com/v1' : '/v1'}/artists/${item.value?.artists[0]?.id}/albums`, {
+        `/v1/artists/${newItem?.artists[0]?.id}/albums`, {
           headers: { 
             Authorization: $cookies.get('clonify-auth-token')
           }
@@ -134,7 +164,7 @@ watch(item, async(newItem) => {
         itemVibrant.value = palette.Vibrant?.rgb
         setTimeout(() => {
           clonifyStore.currentItem.display_name = newItem?.name
-          clonifyStore.currentItem.color = itemVibrant.value
+          // clonifyStore.currentItem.color = itemVibrant.value
         }, 200)
       })
     }
@@ -143,7 +173,7 @@ watch(item, async(newItem) => {
 }, { immediate: true })
 
 function getAlbumDuration (album) {
-  if (album?.tracks) {
+  if (album?.tracks?.items?.length && Object.keys(album.tracks.items[0])?.length > 1) {
     let durationAlbum = album.tracks.items.reduce((sum, track) => sum + track.duration_ms, 0)
     const formatted = intervalToDuration({ start: 0, end: durationAlbum })
     return `${formatted.hours ? `${formatted.hours} h ` : ''} ${formatted.minutes} m`
